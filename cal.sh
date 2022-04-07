@@ -1,7 +1,12 @@
 #!/bin/bash
 
-read num1 <  num1.txt
-read num2 < num2.txt
+
+filename=num1.txt
+filename2=num2.txt
+declare -a myArray
+myArray=(`cat "$filename" "$filename2"`)
+
+
 PS3="select menu:"
 if [ $# = 0 ]
 then
@@ -11,22 +16,36 @@ do
         if [ "$var" = "add" ]
         then
                 op="add"
-                total=$((num1 + num2))
+                
+                for (( i = 0 ; i < ${#myArray[@]} ; i++))
+		do
+		  echo ${myArray[$i]}
+		  ((total += myArray[$i]))
+		done
                 break
         elif [ "$var" = "sub" ]
         then
                 op="sub"
-                total=$((num1 - num2))
+		for (( i = 0 ; i < ${#myArray[@]} ; i++))
+		do
+		  ((total -= myArray[$i]))
+		done
                 break
         elif [ "$var" = "div" ]
         then
                 op="div"
-                total=$((num1 / num2))
+		for (( i = 0 ; i < ${#myArray[@]} ; i++))
+		do
+		  ((total /= myArray[$i]))
+		done
                 break
 
         else
                 op="mul"
-                total=$((num1 * num2))
+		for (( i = 0 ; i < ${#myArray[@]} ; i++))
+		do
+		  ((total *= myArray[$i]))
+		done
                 break
         fi
 done
@@ -36,26 +55,36 @@ else
         if [ "$op" = "add" ]
         then
                 op="add"
-                total=$((num1 + num2))
+		for (( i = 0 ; i < ${#myArray[@]} ; i++))
+		do
+		  ((total += myArray[$i]))
+		done
         elif [ "$op" = "sub" ]
         then
                 op="sub"
-                total=$((num1 - num2))
+                for (( i = 0 ; i < ${#myArray[@]} ; i++))
+		do
+		  ((total -= myArray[$i]))
+		done
         elif [ "$op" = "div" ]
         then
                 op="div"
-                total=$((num1 / num2))
+                for (( i = 0 ; i < ${#myArray[@]} ; i++))
+		do
+		  ((total /= myArray[$i]))
+		done
         else
                 op="mul"
-                total=$((num1 * num2))
+		for (( i = 0 ; i < ${#myArray[@]} ; i++))
+		do
+		  ((total *= myArray[$i]))
+		done
         fi
 
 fi
 
 echo "$op selected"
-        echo "num1 : $num1"
-        echo "num2 : $num2"
+        echo "nums : $myArray"
         echo "op : $op"
         echo "total : $total"
         exit 0
-
