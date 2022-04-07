@@ -6,7 +6,6 @@ filename2=num2.txt
 declare -a myArray
 myArray=(`cat "$filename" "$filename2"`)
 echo "project management in github" 
-
 PS3="select menu:"
 if [ $# = 0 ]
 then
